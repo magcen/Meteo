@@ -1,7 +1,42 @@
 function refreshWeather(response) {
   let temperatureElement = document.querySelector("#temperature");
   let temperature = response.data.main.temp;
+  let cityElement = document.querySelector("#city");
+
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = document.querySelector("#humidity");
+  let windSpeedElement = document.querySelector("#wind-speed");
+  let timeElement = document.querySelector("#time");
+  let date = new Date(response.data.dt * 1000);
+
+  cityElement.innerHTML = response.data.name;
   temperatureElement.innerHTML = Math.round(temperature);
+  descriptionElement.innerHTML = response.data.weather[0].description;
+  humidityElement.innerHTML = `${response.data.main.humidity}%`;
+  windSpeedElement.innerHTML = `${response.data.wind.speed} km/h`;
+  timeElement.innerHTML = formatDate(date);
+}
+
+function formatDate(date) {
+  let minutes = date.getMinutes();
+  let hours = date.getHours();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let day = days[date.getDay()];
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  return `${day} ${hours}:${minutes}`;
 }
 
 function searchCity(city) {
@@ -13,8 +48,7 @@ function searchCity(city) {
 function handleSeachSubmit(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-form-input");
-  let cityElement = document.querySelector("#city");
-  cityElement.innerHTML = searchInput.value;
+
   searchCity(searchInput.value);
 }
 
