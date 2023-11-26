@@ -9,12 +9,18 @@ function refreshWeather(response) {
   let timeElement = document.querySelector("#time");
   let date = new Date(response.data.dt * 1000);
 
+  let iconElement = document.querySelector("#icon");
+
+  iconElement.innerHTML = `<img
+  src="${response.data.weather[0].icon}.png}" class="weather-app-icon"/>`;
+
   cityElement.innerHTML = response.data.name;
   temperatureElement.innerHTML = Math.round(temperature);
   descriptionElement.innerHTML = response.data.weather[0].description;
   humidityElement.innerHTML = `${response.data.main.humidity}%`;
   windSpeedElement.innerHTML = `${response.data.wind.speed} km/h`;
   timeElement.innerHTML = formatDate(date);
+  console.log(response.data);
 }
 
 function formatDate(date) {
