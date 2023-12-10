@@ -20,7 +20,8 @@ function refreshWeather(response) {
   humidityElement.innerHTML = `${response.data.main.humidity}%`;
   windSpeedElement.innerHTML = `${response.data.wind.speed} km/h`;
   timeElement.innerHTML = formatDate(date);
-  console.log(response.data);
+
+  getForecast(response.data.name);
 }
 
 function formatDate(date) {
@@ -61,7 +62,17 @@ function handleSeachSubmit(event) {
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSeachSubmit);
 
-function displayForecast() {
+function getForecast(city) {
+  let apiKey = "bf785f5d7034726661afatbof3354b0c";
+  //let apiKey = "3d2931e5559b9b4130d14fe62dcabb79";
+  //let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?q=${city}&appid=${apiKey}&units=metric`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  axios(apiUrl).then(displayForecast);
+  https: console.log(apiUrl);
+}
+
+function displayForecast(response) {
+  console.log(response.data);
   let forecastElement = document.querySelector("#forecast");
 
   let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -90,4 +101,4 @@ function displayForecast() {
 }
 
 searchCity("Paris");
-displayForecast();
+//getForecast("Paris");
