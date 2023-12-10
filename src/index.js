@@ -62,6 +62,13 @@ function handleSeachSubmit(event) {
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSeachSubmit);
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[date.getDay()];
+}
+
 function getForecast(city) {
   let apiKey = "bf785f5d7034726661afatbof3354b0c";
   //let apiKey = "3d2931e5559b9b4130d14fe62dcabb79";
@@ -75,26 +82,30 @@ function displayForecast(response) {
   console.log(response.data);
   let forecastElement = document.querySelector("#forecast");
 
-  let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
   let forecastHtml = "";
 
-  days.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHtml =
+        forecastHtml +
+        `
     <div class="weather-forecast-day col-2">
-       <div class="weather-forecast-date">${day}</div>
+       <div class="weather-forecast-date">${formatDay(day.time)}</div>
        <div class="weather-forecast-icon">
-      <img src="https://openweathermap.org/img/wn/10d.png" width="42" />
+      <img src="${day.condition.icon_url}" width="42" />
       </div>
       <div class="weather-forecast-temperatures">
-        <span class="weather-forecast-temperature-max">18° </span>
-        <span class="weather-forecast-temperature-min">12° </span>
+        <span class="weather-forecast-temperature-max">${Math.round(
+          day.temperature.maximum
+        )}° </span>
+        <span class="weather-forecast-temperature-min">${Math.round(
+          day.temperature.minimum
+        )}° </span>
       </div>
      
     </div>
 `;
+    }
   });
 
   forecastElement.innerHTML = forecastHtml;
