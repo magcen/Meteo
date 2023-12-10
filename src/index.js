@@ -12,7 +12,7 @@ function refreshWeather(response) {
   let iconElement = document.querySelector("#icon");
 
   iconElement.innerHTML = `<img
-  src="https://openweathermap.org/img/wn/${response.data.weather[0].icon}.png}" class="weather-app-icon"/>`;
+  src="https://openweathermap.org/img/wn/${response.data.weather[0].icon}.png" class="weather-app-icon"/>`;
 
   cityElement.innerHTML = response.data.name;
   temperatureElement.innerHTML = Math.round(temperature);
